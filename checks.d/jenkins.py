@@ -156,6 +156,8 @@ class Jenkins(AgentCheck):
                         tags.append('branch:%s' % output['branch'])
                     self.gauge("jenkins.job.duration", float(output['duration'])/1000.0, tags=tags)
 
+                    self.increment('jenkins.job.build', tags=tags)
+
                     if output['result'] == 'SUCCESS':
                         self.increment('jenkins.job.success', tags=tags)
                     else:
@@ -172,4 +174,3 @@ class Jenkins(AgentCheck):
                 'jenkins_home': agentConfig.get('hudson_home'),
             }]
         }
-
